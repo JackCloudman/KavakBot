@@ -1,6 +1,6 @@
 import redis
 
-from examples.KavakBot.app.components.cache.cache_interface import CacheInterface
+from app.components.cache.cache_interface import CacheInterface
 
 
 class AsyncRedis(CacheInterface):

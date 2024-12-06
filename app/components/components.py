@@ -3,12 +3,10 @@ from asyncio import Lock
 from pathlib import Path
 from typing import Any, Dict
 
-from examples.KavakBot.app.components.cache.cache_interface import CacheInterface
-from examples.KavakBot.app.components.cache.redis import AsyncRedis
-from examples.KavakBot.app.components.configuration.configuration import Configuration
-from examples.KavakBot.app.components.configuration.configuration_interface import (
-    ConfigurationInterface,
-)
+from app.components.cache.cache_interface import CacheInterface
+from app.components.cache.redis import AsyncRedis
+from app.components.configuration.configuration import Configuration
+from app.components.configuration.configuration_interface import ConfigurationInterface
 
 
 class ComponentsMeta(type):

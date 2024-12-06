@@ -3,9 +3,7 @@ import json
 import os
 from typing import Any, Dict, Type
 
-from examples.KavakBot.app.components.configuration.configuration_interface import (
-    ConfigurationInterface,
-)
+from app.components.configuration.configuration_interface import ConfigurationInterface
 
 
 class Configuration(ConfigurationInterface):

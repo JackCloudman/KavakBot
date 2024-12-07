@@ -1,5 +1,5 @@
 {
-  "TYPESENSE_HOST": "localhost",
+  "TYPESENSE_HOST": "typesense",
   "TYPESENSE_API_KEY": "abcd1234",
   "TYPESENSE_PORT": 8108,
   "TYPESENSE_PROTOCOL": "http",

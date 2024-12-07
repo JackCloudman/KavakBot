@@ -82,7 +82,12 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
             "per_page": 100
         }
 
-        results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(search_parameters)
+        try:
+
+            results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(search_parameters)
+        except Exception as e:
+            print(f"Error searching in Typesense: {e}")
+            return []
 
         if 'hits' in results:
             return [hit['document'] for hit in results['hits']]

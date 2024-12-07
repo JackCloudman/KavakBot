@@ -1,10 +1,9 @@
-import pandas as pd
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 import typesense
-from pandas import DataFrame
 
-from app.repositories.car_catalog.car_catalog_repository_interface import CarCatalogRepositoryInterface
+from app.repositories.car_catalog.car_catalog_repository_interface import \
+    CarCatalogRepositoryInterface
 
 
 class CarCatalogRepository(CarCatalogRepositoryInterface):
@@ -71,7 +70,8 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
                     elif op == "lte":
                         filter_conditions.append(f"{column}:<={val}")
 
-        filter_by: str = " AND ".join(filter_conditions) if filter_conditions else ""
+        filter_by: str = " AND ".join(
+            filter_conditions) if filter_conditions else ""
         q_value: str = full_text_query if full_text_query else "*"
 
         # Adjust query_by according to fields indexed for full-text search
@@ -84,7 +84,8 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
 
         try:
 
-            results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(search_parameters)
+            results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(
+                search_parameters)
         except Exception as e:
             print(f"Error searching in Typesense: {e}")
             return []
@@ -107,7 +108,8 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
             "per_page": 0
         }
 
-        results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(search_parameters)
+        results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(
+            search_parameters)
 
         unique_values: List[Any] = []
         if 'facets' in results:
@@ -121,6 +123,7 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
         """
         Retrieve the list of fields from the collection schema.
         """
-        collection: Dict[str, Any] = self.client.collections[self.collection_name].retrieve()
+        collection: Dict[str,
+                         Any] = self.client.collections[self.collection_name].retrieve()
         fields: List[Dict[str, Any]] = collection.get('fields', [])
         return [f['name'] for f in fields]

@@ -1,7 +1,8 @@
 import logging
 import sys
 
-from examples.KavakBot.app.components.logger.logger_interface import LoggerInterface
+from examples.KavakBot.app.components.logger.logger_interface import \
+    LoggerInterface
 
 
 class Logger(LoggerInterface):

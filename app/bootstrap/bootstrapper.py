@@ -36,4 +36,5 @@ def attach_app_default_handler(
 def attach_app_routes(
         app: FastAPI,
 ) -> None:
-    app.include_router(chat_router.router, prefix='/api/v1/chat', tags=['chat'])
+    app.include_router(chat_router.router,
+                       prefix='/api/v1/chat', tags=['chat'])

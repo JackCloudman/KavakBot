@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class CacheInterface(ABC):
@@ -7,7 +8,7 @@ class CacheInterface(ABC):
         pass
 
     @abstractmethod
-    async def get(self, key: str) -> str:
+    async def get(self, key: str) -> Optional[str]:
         pass
 
     @abstractmethod

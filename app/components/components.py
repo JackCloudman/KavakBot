@@ -1,14 +1,16 @@
 import os
 from pathlib import Path
-from typing import Any, Dict
 from threading import Lock
+from typing import Any, Dict
 
 import typesense
+from openai import OpenAI
 
 from app.components.cache.cache_interface import CacheInterface
 from app.components.cache.redis import AsyncRedis
 from app.components.configuration.configuration import Configuration
-from app.components.configuration.configuration_interface import ConfigurationInterface
+from app.components.configuration.configuration_interface import \
+    ConfigurationInterface
 
 
 class ComponentsMeta(type):
@@ -44,7 +46,8 @@ class Components(metaclass=ComponentsMeta):
             configuration.get_configuration('REDIS_HOST', str),
         )
         typesense_client: typesense.Client = typesense.Client({
-            'api_key': configuration.get_configuration('TYPESENSE_API_KEY', str),  # Must be secret
+            # Must be secret
+            'api_key': configuration.get_configuration('TYPESENSE_API_KEY', str),
             'nodes': [{
                 'host': configuration.get_configuration('TYPESENSE_HOST', str),
                 'port': configuration.get_configuration('TYPESENSE_PORT', int),
@@ -53,10 +56,13 @@ class Components(metaclass=ComponentsMeta):
             'connection_timeout_seconds': configuration.get_configuration('TYPESENSE_CONNECTION_TIMEOUT_SECONDS', int),
         })
 
+        openai_client: OpenAI = OpenAI()
+
         return {
             'configuration': configuration,
             'cache': redis,
             'typesense': typesense_client,
+            'openai': openai_client
         }
 
     def get_component(self, component_name: str) -> Any:

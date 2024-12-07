@@ -1,3 +1,5 @@
+from typing import Optional
+
 import redis
 
 from app.components.cache.cache_interface import CacheInterface
@@ -14,7 +16,7 @@ class AsyncRedis(CacheInterface):
     async def set(self, key: str, value: str) -> None:
         await self.client.set(key, value)
 
-    async def get(self, key: str) -> str:
+    async def get(self, key: str) -> Optional[str]:
         value: bytes = await self.client.get(key)
         return value.decode('utf-8') if value else None
 

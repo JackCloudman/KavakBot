@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class FAQServiceInterface(ABC):
+class FlowInterface(ABC):
     @abstractmethod
-    async def get_answer(self, question: str) -> str:
+    def run(self) -> None:
         raise NotImplementedError

@@ -1,27 +1,26 @@
 from typing import Optional
 
-import redis
+from redis import Redis
 
 from app.components.cache.cache_interface import CacheInterface
 
 
-class AsyncRedis(CacheInterface):
+class AsyncCache(CacheInterface):
 
-    def __init__(self, host='localhost', port=6379, db=0):
-        self.client = redis.StrictRedis(host=host, port=port, db=db)
+    def __init__(self, client: Redis):
+        self._client: Redis = client
 
-    async def expire(self, key: str, seconds: int) -> None:
-        await self.client.expire(key, seconds)
+    def expire(self, key: str, seconds: int) -> None:
+        self._client.expire(key, seconds)
 
-    async def set(self, key: str, value: str) -> None:
-        await self.client.set(key, value)
+    def set(self, key: str, value: str) -> None:
+        self._client.set(key, value)
 
-    async def get(self, key: str) -> Optional[str]:
-        value: bytes = await self.client.get(key)
-        return value.decode('utf-8') if value else None
+    def get(self, key: str) -> Optional[str]:
+        return None
 
-    async def delete(self, key: str) -> None:
-        await self.client.delete(key)
+    def delete(self, key: str) -> None:
+        self._client.delete(key)
 
-    async def exists(self, key: str) -> bool:
-        return await self.client.exists(key) == 1
+    def exists(self, key: str) -> bool:
+        return self._client.exists(key) == 1

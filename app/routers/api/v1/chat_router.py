@@ -1,25 +1,21 @@
-from typing import Callable, Optional
-
 from fastapi import APIRouter, Depends
 
-from app.dependencies.services import get_tools_service
-from app.entities.tool_name import ToolName
-from app.services.tools.tool_service_interface import ToolServiceInterface
+from app.dependencies.flows import get_chatbot_flow
+
+from app.external.request.chatbot_request import ChatBotRequest
+from app.robot.flows.chatbot_flow_interface import ChatFlowInterface
 
 router: APIRouter = APIRouter()
 
 
-@router.get('/webhook/{tool_name}')
+@router.post('/webhook/whatsappp')
 async def webhook(
-        tool_name: ToolName,
-        tools_service: ToolServiceInterface = Depends(get_tools_service)
+        payload: ChatBotRequest,
+        chatbot_flow: ChatFlowInterface = Depends(get_chatbot_flow),
 ):
-    print(tool_name)
-    tool: Optional[Callable] = await tools_service.get_tool(tool_name)
+    return {"response": chatbot_flow.handle_message(
+        phone_number=payload.phone_number,
+        content=payload.message
+    )
 
-    if not tool:
-        return {'message': 'Tool not found!'}
-
-    tool({})
-
-    return {'message': 'Tool executed!'}
+    }

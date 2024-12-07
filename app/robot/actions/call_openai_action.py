@@ -18,7 +18,9 @@ class CallOpenAIAction(ActionInterface):
             )
 
             blackboard.set('openai_response', response.choices[0].message)
+            blackboard.set('final_response', response.choices[0].message)  # TODO: Remove this line
             return "SUCCESS"
         except Exception as e:
+            print(e)
             blackboard.set('error', str(e))
             return "FAILURE"

@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import Dict, List, Union
 
 
 class FinancialPlan:
@@ -27,11 +27,10 @@ class FinancialPlan:
 
         for years in terms:
             total_months: int = years * 12
-            if principal <= 0:
-                monthly_installment: float = 0.0
-            else:
-                monthly_installment: float = principal * (monthly_rate * (1 + monthly_rate) ** total_months) / (
-                        (1 + monthly_rate) ** total_months - 1)
+            monthly_installment: float = 0.0
+            if principal > 0:
+                monthly_installment = principal * (monthly_rate * (1 + monthly_rate) ** total_months) / (
+                    (1 + monthly_rate) ** total_months - 1)
 
             financing_plans[f"{years} years"] = {
                 "term_months": total_months,

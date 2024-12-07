@@ -1,9 +1,10 @@
-import requests
+import json
 import os
 import time
+from typing import Any, Dict, List
+
 import pandas as pd
-from typing import Dict, List
-import json
+import requests
 
 # Wait to ensure that Typesense is up and running
 time.sleep(5)
@@ -22,7 +23,8 @@ df: pd.DataFrame = pd.read_csv("data/cars_cleaned.csv")
 # Define columns based on updated names
 str_cols: List[str] = ['make', 'model', 'version']
 bool_cols: List[str] = ['bluetooth', 'carplay']
-num_cols: List[str] = ['stock_id', 'kilometers', 'price', 'year', 'length', 'width', 'height']
+num_cols: List[str] = ['stock_id', 'kilometers',
+                       'price', 'year', 'length', 'width', 'height']
 
 # Fill missing values in string columns
 for col in str_cols:
@@ -49,7 +51,7 @@ df['carplay'] = df['carplay'].astype(bool)
 
 # Define the schema for the Typesense collection
 collection_name: str = "cars"
-collection_schema: Dict[str, any] = {
+collection_schema: Dict[str, Any] = {
     "name": collection_name,
     "fields": [
         {"name": "stock_id", "type": "int32"},
@@ -75,7 +77,8 @@ delete_response = requests.delete(
 )
 
 if delete_response.status_code in [200, 404]:
-    print(f"Collection '{collection_name}' deleted or did not exist previously.")
+    print(
+        f"Collection '{collection_name}' deleted or did not exist previously.")
 else:
     print(f"Error deleting the collection: {delete_response.text}")
 
@@ -92,7 +95,7 @@ else:
     print(f"Error creating the collection: {create_response.text}")
 
 # Convert the DataFrame to a list of dictionaries
-documents: List[Dict[str, any]] = df.to_dict(orient="records")
+documents: List[Dict[str, Any]] = df.to_dict(orient="records")
 
 # Bulk import documents
 # Typesense expects one JSON document per line

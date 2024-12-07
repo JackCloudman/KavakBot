@@ -29,11 +29,13 @@ services:
     environment:
       - PORT=8080
       - RELOAD=false
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       - redis
       - typesense
     ports:
       - "8080:8080"
+
 
   init_data:
     build: .

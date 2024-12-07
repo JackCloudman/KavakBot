@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Protocol, Union
+from typing import Any, Dict, List
 
 
 class CarCatalogRepositoryInterface(ABC):

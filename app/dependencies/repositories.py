@@ -3,10 +3,14 @@ from fastapi import Depends
 from app.components.components import Components
 from app.components.configuration.configuration import Configuration
 from app.dependencies.components import get_components
-from app.repositories.car_catalog.car_catalog_repository import CarCatalogRepository
-from app.repositories.car_catalog.car_catalog_repository_interface import CarCatalogRepositoryInterface
-from app.repositories.conversation.conversation_repository import ConversationRepository
-from app.repositories.conversation.conversation_repository_interface import ConversationRepositoryInterface
+from app.repositories.car_catalog.car_catalog_repository import \
+    CarCatalogRepository
+from app.repositories.car_catalog.car_catalog_repository_interface import \
+    CarCatalogRepositoryInterface
+from app.repositories.conversation.conversation_repository import \
+    ConversationRepository
+from app.repositories.conversation.conversation_repository_interface import \
+    ConversationRepositoryInterface
 
 
 def get_conversation_repository(

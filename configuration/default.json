@@ -1,0 +1,4 @@
+{
+  "REDIS_HOST": "localhost",
+  "CAR_CATALOG_COLLECTION_NAME": "cars"
+}

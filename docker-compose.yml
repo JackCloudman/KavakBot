@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:latest
+    container_name: redis_server
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  typesense:
+    image: typesense/typesense:0.24.0
+    container_name: typesense_server
+    environment:
+      - TYPESENSE_DATA_DIR=/data
+      - TYPESENSE_API_KEY=abcd1234
+      - TYPESENSE_ENABLE_CORS=true
+      - TYPESENSE_API_PORT=8108
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense_data:/data
+
+  api:
+    build: .
+    container_name: fastapi_server
+    command: uvicorn main:app --host 0.0.0.0 --port 8080
+    environment:
+      - PORT=8080
+      - RELOAD=false
+    depends_on:
+      - redis
+      - typesense
+    ports:
+      - "8080:8080"
+
+  init_data:
+    build: .
+    container_name: typesense_init
+    depends_on:
+      - api
+      - typesense
+    command: python scripts/init_data.py
+    environment:
+      - TYPESENSE_HOST=typesense
+      - TYPESENSE_PORT=8108
+      - TYPESENSE_API_KEY=abcd1234
+    # Este servicio se ejecuta y termina, no necesita exponer puertos
+
+volumes:
+  typesense_data:
+  redis_data:

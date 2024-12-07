@@ -1,5 +1,5 @@
 {
-  "REDIS_HOST": "localhost",
+  "REDIS_HOST": "redis",
   "CAR_CATALOG_COLLECTION_NAME": "cars",
   "SYSTEM_PROMPT": "Eres un asistante virtual de ventas de autos",
   "OPENAI_MODEL_NAME": "gpt-4o-mini"

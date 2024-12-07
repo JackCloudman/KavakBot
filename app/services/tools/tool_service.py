@@ -1,12 +1,13 @@
 from typing import Callable, Dict, Optional
 
-from app.services.tool_service_interface import ToolServiceInterface
+from app.entities.tool_name import ToolName
+from app.services.tools.tool_service_interface import ToolServiceInterface
 
 
 class ToolService(ToolServiceInterface):
 
-    def __init__(self, tools: Dict[str, Callable]) -> None:
-        self._tools = tools
+    def __init__(self, tools: Dict[ToolName, Callable]) -> None:
+        self._tools: Dict[ToolName, Callable] = tools
 
-    async def get_tool(self, tool_name: str) -> Optional[Callable]:
+    async def get_tool(self, tool_name: ToolName) -> Optional[Callable]:
         return self._tools.get(tool_name)

@@ -4,3 +4,4 @@ pydantic==2.10.3
 pandas==2.2.3
 fastapi==0.115.6
 uvicorn==0.32.1
+typesense==0.21.0

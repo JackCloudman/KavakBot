@@ -5,7 +5,7 @@ from app.entities.conversation import Conversation
 from app.repositories.conversation.conversation_repository_interface import ConversationRepositoryInterface
 
 
-class ConversationsRepository(ConversationRepositoryInterface):
+class ConversationRepository(ConversationRepositoryInterface):
     def __init__(self, db: CacheInterface):
         self._db: CacheInterface = db
         self._prefix: str = 'conversation'

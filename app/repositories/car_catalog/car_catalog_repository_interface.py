@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Protocol, Union
 
 
-class CarCatalogInterface(ABC):
+class CarCatalogRepositoryInterface(ABC):
     @abstractmethod
     def search(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
         raise NotImplementedError

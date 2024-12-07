@@ -1,7 +1,9 @@
 import os
-from asyncio import Lock
 from pathlib import Path
 from typing import Any, Dict
+from threading import Lock
+
+import typesense
 
 from app.components.cache.cache_interface import CacheInterface
 from app.components.cache.redis import AsyncRedis
@@ -41,8 +43,21 @@ class Components(metaclass=ComponentsMeta):
         redis: CacheInterface = AsyncRedis(
             configuration.get_configuration('REDIS_HOST', str),
         )
+        typesense_client: typesense.Client = typesense.Client({
+            'api_key': configuration.get_configuration('TYPESENSE_API_KEY', str),  # Must be secret
+            'nodes': [{
+                'host': configuration.get_configuration('TYPESENSE_HOST', str),
+                'port': configuration.get_configuration('TYPESENSE_PORT', int),
+                'protocol': configuration.get_configuration('TYPESENSE_PROTOCOL', str),
+            }],
+            'connection_timeout_seconds': configuration.get_configuration('TYPESENSE_CONNECTION_TIMEOUT_SECONDS', int),
+        })
 
         return {
             'configuration': configuration,
             'cache': redis,
+            'typesense': typesense_client,
         }
+
+    def get_component(self, component_name: str) -> Any:
+        return self.__components[component_name]

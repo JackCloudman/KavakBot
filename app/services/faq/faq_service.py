@@ -1,4 +1,4 @@
-from app.services.faq_service_interface import FAQServiceInterface
+from app.services.faq.faq_service_interface import FAQServiceInterface
 
 
 class FAQService(FAQServiceInterface):

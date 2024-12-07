@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.entities.roles import ChatRole
+from app.entities.chat_role import ChatRole
 
 
 class Message(BaseModel):

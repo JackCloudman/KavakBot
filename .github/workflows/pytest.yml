@@ -13,27 +13,25 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      # Construir la imagen usando el Dockerfile del repo
       - name: Build docker image for testing
         run: docker build -t my-app-test:latest .
 
-      # Levantar el contenedor y correr los tests
+      # Run tests with coverage
       - name: Run tests with coverage
         run: |
-          docker run --rm \
-          my-app-test:latest \
-          sh -c "pytest --cov=. --cov-report=xml --cov-report=term-missing"
+          docker run --name my_app_test_container --rm my-app-test:latest \
+            sh -c "pytest --cov=. --cov-report=xml --cov-report=term-missing"
 
-      # Aquí el archivo coverage.xml se genera en el workspace host, gracias al volumen montado.
-      # Ahora puedes subirlo a Codecov, por ejemplo (necesitas el token de codecov)
+      # Copy coverage.xml from container to host
+      - name: Copy coverage.xml
+        run: docker cp my_app_test_container:/app/coverage.xml coverage.xml
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          # Si tu coverage.xml está en la raíz
           files: ./coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }} # Configura este secret en tu repositorio
+          token: ${{ secrets.CODECOV_TOKEN }}
 
-      # Opcional: subir el archivo coverage.xml como artifact por si lo quieres conservar
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v3
         with:

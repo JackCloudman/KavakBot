@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from typing import Dict
 
 from fastapi import Depends
 
@@ -20,7 +20,16 @@ def get_chatbot_flow(
     <Sequence>
       <FetchConversationHistory/>
       <PreparePrompt/>
-      <CallOpenAI/>
+      <Fallback>
+          <Repeat num_cycles="5">
+            <Sequence>
+              <CallOpenAI/>
+              <ResponseHasFunctionCall/>
+              <ExecuteFunction/>
+            </Sequence>
+          </Repeat>
+        <UseResponse/>
+      </Fallback>
     </Sequence>
   </BehaviorTree>
 
@@ -28,9 +37,15 @@ def get_chatbot_flow(
   <TreeNodesModel>
     <Action ID="CallOpenAI"
             editable="true"/>
+    <Action ID="ExecuteFunction"
+            editable="true"/>
     <Action ID="FetchConversationHistory"
             editable="true"/>
     <Action ID="PreparePrompt"
+            editable="true"/>
+    <Condition ID="ResponseHasFunctionCall"
+               editable="true"/>
+    <Action ID="UseResponse"
             editable="true"/>
   </TreeNodesModel>
 

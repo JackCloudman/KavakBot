@@ -12,11 +12,13 @@ class ConversationRepository(ConversationRepositoryInterface):
         self._prefix: str = 'conversation'
 
     def save_conversation(self, conversation: Conversation) -> None:
-        self._db.set(f'{self._prefix}:{conversation.phone_number}', conversation.json())
+        self._db.set(
+            f'{self._prefix}:{conversation.phone_number}', conversation.json())
 
     def get_conversation(self, phone_number: str) -> Optional[Conversation]:
         # Get the conversation data from the cache
-        conversation_data_str: Optional[str] = self._db.get(f'{self._prefix}:{phone_number}')
+        conversation_data_str: Optional[str] = self._db.get(
+            f'{self._prefix}:{phone_number}')
 
         if not conversation_data_str:
             return None

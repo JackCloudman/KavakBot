@@ -1,5 +1,3 @@
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 import behavior_tree_cpp as bt
@@ -21,7 +19,8 @@ class FetchConversationHistoryAction(ActionInterface):
         phone_number: str = blackboard.get('phone_number')
         message: Message = blackboard.get('message')
 
-        conversation: Optional[Conversation] = self._conversation_repository.get_conversation(phone_number)
+        conversation: Optional[Conversation] = self._conversation_repository.get_conversation(
+            phone_number)
 
         if conversation is None:
             conversation = Conversation(

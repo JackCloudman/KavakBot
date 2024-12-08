@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from typing import Dict
 
 import behavior_tree_cpp as bt
 

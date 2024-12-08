@@ -1,4 +1,5 @@
 {
+  "LOG_LEVEL": "debug",
   "TYPESENSE_HOST": "typesense",
   "TYPESENSE_API_KEY": "abcd1234",
   "TYPESENSE_PORT": 8108,

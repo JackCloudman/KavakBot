@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict, List
 
 import typesense
@@ -11,7 +12,7 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
         self.client: typesense.Client = typesense_client
         self.collection_name: str = collection_name
 
-    def search(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def search(self, search_query: str) -> List[Dict[str, Any]]:
         """
         Example of query:
         {
@@ -22,6 +23,8 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
             "description": "family car"       # full-text search in the description field
         }
         """
+
+        query: Dict[str, Any] = json.loads(search_query)
 
         filter_conditions: List[str] = []
         full_text_query: str = ""
@@ -70,7 +73,7 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
                     elif op == "lte":
                         filter_conditions.append(f"{column}:<={val}")
 
-        filter_by: str = " AND ".join(
+        filter_by: str = " && ".join(
             filter_conditions) if filter_conditions else ""
         q_value: str = full_text_query if full_text_query else "*"
 
@@ -79,13 +82,15 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
             "q": q_value,
             "query_by": "description",  # set fields used for text search
             "filter_by": filter_by,
-            "per_page": 100
+            "per_page": 10
         }
 
+        print("SEARCH PARAMS", search_parameters)
         try:
 
             results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(
                 search_parameters)
+            print("RESULTS", results)
         except Exception as e:
             print(f"Error searching in Typesense: {e}")
             return []

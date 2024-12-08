@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 
 from app.dependencies.flows import get_chatbot_flow
-
 from app.external.request.chatbot_request import ChatBotRequest
 from app.robot.flows.chatbot_flow_interface import ChatFlowInterface
 

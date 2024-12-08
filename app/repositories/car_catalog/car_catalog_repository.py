@@ -1,6 +1,5 @@
 import json
 from typing import Any, Dict, List
-
 import typesense
 
 from app.repositories.car_catalog.car_catalog_repository_interface import \
@@ -14,39 +13,32 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
 
     def search(self, search_query: str) -> List[Dict[str, Any]]:
         """
-        Example of query:
-        {
-            "make": "chevrolet",              # direct equality
-            "year": {"gte": 2018, "lte": 2020}, # range with gte/lte/gt/lt/eq
-            "price": {"lte": 200000},         # simple comparison
-            "car_play": True,                 # direct equality
-            "description": "family car"       # full-text search in the description field
-        }
+        Método de búsqueda con manejo de excepciones para JSON inválido.
         """
-
-        query: Dict[str, Any] = json.loads(search_query)
+        try:
+            query: Dict[str, Any] = json.loads(search_query)
+        except json.JSONDecodeError as e:
+            print(f"Invalid JSON query: {e}")
+            return []
 
         filter_conditions: List[str] = []
         full_text_query: str = ""
 
         for column, condition in query.items():
-            # If we detect the 'description' field, treat it as full-text search
+            # Si detectamos el campo 'description', lo tratamos como búsqueda de texto completo
             if column == "description":
                 if isinstance(condition, str) and condition.strip():
                     full_text_query = condition
-                # Skip adding to filter conditions since this is a text search field
                 continue
 
-            # Handle filters for other fields
+            # Manejo de filtros para otros campos
             if isinstance(condition, (int, float, bool, str)):
-                # Direct equality
                 if isinstance(condition, str):
                     filter_conditions.append(f"{column}:='{condition}'")
                 else:
                     filter_conditions.append(f"{column}:={condition}")
 
             elif isinstance(condition, list):
-                # IN condition
                 values: List[str] = []
                 for val in condition:
                     if isinstance(val, str):
@@ -57,7 +49,6 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
                 filter_conditions.append(f"{column}:{values_str}")
 
             elif isinstance(condition, dict):
-                # Range or comparison operators
                 for op, val in condition.items():
                     if op == "eq":
                         if isinstance(val, str):
@@ -73,21 +64,18 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
                     elif op == "lte":
                         filter_conditions.append(f"{column}:<={val}")
 
-        filter_by: str = " && ".join(
-            filter_conditions) if filter_conditions else ""
+        filter_by: str = " && ".join(filter_conditions) if filter_conditions else ""
         q_value: str = full_text_query if full_text_query else "*"
 
-        # Adjust query_by according to fields indexed for full-text search
         search_parameters: Dict[str, Any] = {
             "q": q_value,
-            "query_by": "description",  # set fields used for text search
+            "query_by": "description",  # campos utilizados para búsqueda de texto
             "filter_by": filter_by,
             "per_page": 10
         }
 
         print("SEARCH PARAMS", search_parameters)
         try:
-
             results: Dict[str, Any] = self.client.collections[self.collection_name].documents.search(
                 search_parameters)
             print("RESULTS", results)

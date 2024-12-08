@@ -18,13 +18,13 @@ class StoreConversationAction(ActionInterface):
         conversation: Conversation = blackboard.get("conversation")
         final_response: str = blackboard.get("final_response")
 
+        if conversation is None:
+            return "FAILURE"
+
         conversation.messages.append(Message(
             role=ChatRole.ASSISTANT,
             content=final_response,
         ))
-
-        if conversation is None:
-            return "FAILURE"
 
         self._conversation_repository.save_conversation(conversation)
         return "SUCCESS"

@@ -13,5 +13,5 @@ class Message(BaseModel):
 
     @staticmethod
     def from_str(message: str) -> 'Message':
-        role, content = message.split(":", 1)
+        role, content = message.split(": ", 1)
         return Message(role=ChatRole(role.strip()), content=content.strip())

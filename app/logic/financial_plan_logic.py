@@ -29,8 +29,14 @@ class FinancialPlan:
             total_months: int = years * 12
             monthly_installment: float = 0.0
             if principal > 0:
-                monthly_installment = principal * (monthly_rate * (1 + monthly_rate) ** total_months) / (
-                    (1 + monthly_rate) ** total_months - 1)
+                if monthly_rate == 0:
+                    # Sin intereses, el pago mensual es el principal entre el número total de meses
+                    monthly_installment = principal / total_months
+                else:
+                    # Con intereses, usar la fórmula original
+                    monthly_installment = principal * (monthly_rate * (1 + monthly_rate) ** total_months) / (
+                        (1 + monthly_rate) ** total_months - 1
+                    )
 
             financing_plans[f"{years} years"] = {
                 "term_months": total_months,

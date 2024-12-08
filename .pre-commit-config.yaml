@@ -1,36 +1,49 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-    -   id: check-ast
-    -   id: check-byte-order-marker
-    -   id: check-case-conflict
-    -   id: check-docstring-first
-    -   id: check-executables-have-shebangs
-    -   id: check-json
-    -   id: check-yaml
-    -   id: check-merge-conflict
-    -   id: debug-statements
-    -   id: detect-private-key
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
-    -   id: mixed-line-ending
--   repo: https://github.com/PyCQA/isort
+      - id: check-ast
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+
+  - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
-    -   id: isort
--   repo: https://github.com/pre-commit/mirrors-autopep8
+      - id: isort
+
+  - repo: https://github.com/pre-commit/mirrors-autopep8
     rev: v2.0.4
     hooks:
-    -   id: autopep8
--   repo: https://github.com/pre-commit/mirrors-mypy
+      - id: autopep8
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.971
     hooks:
-    -   id: mypy
+      - id: mypy
         args: [--ignore-missing-imports, --show-error-codes]
         additional_dependencies: ['types-requests', 'types-protobuf', 'types-redis']
--   repo: https://github.com/PyCQA/autoflake
+
+  - repo: https://github.com/PyCQA/autoflake
     rev: v2.2.1
     hooks:
-    -   id: autoflake
+      - id: autoflake
         args: [--remove-all-unused-imports, --in-place]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: Run pytest tests
+        entry: pytest
+        language: system
+        pass_filenames: false
+        args: ["--cov=app", "--cov-report=term-missing"]

@@ -20,7 +20,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           docker run --name my_app_test_container my-app-test:latest \
-            sh -c "pytest --cov=. --cov-report=xml --cov-report=term-missing"
+            sh -c "pytest --cov=app --cov-report=xml --cov-report=term-missing"
 
       # Copy coverage.xml from container to host
       - name: Copy coverage.xml

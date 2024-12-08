@@ -13,43 +13,48 @@ def get_chatbot_flow(
         actions: Dict[ActionName, ActionInterface] = Depends(get_actions),
 ) -> ChatFlowInterface:
     tree_xml: str = """
-<?xml version="1.0" encoding="UTF-8"?>
-<root BTCPP_format="3"
-      main_tree_to_execute="MainTree">
-  <BehaviorTree ID="MainTree">
-    <Sequence>
-      <FetchConversationHistory/>
-      <PreparePrompt/>
-      <Fallback>
-          <Repeat num_cycles="5">
+    <?xml version="1.0" encoding="UTF-8"?>
+    <root BTCPP_format="3"
+        main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence>
+        <FetchConversationHistory/>
+        <PreparePrompt/>
+        <Fallback>
+            <Repeat num_cycles="5">
+                <Sequence>
+                    <CallOpenAI/>
+                    <ResponseHasFunctionCall/>
+                    <ExecuteFunction/>
+                </Sequence>
+            </Repeat>
             <Sequence>
-              <CallOpenAI/>
-              <ResponseHasFunctionCall/>
-              <ExecuteFunction/>
+                <UseResponse/>
+                <StoreConversation/>
             </Sequence>
-          </Repeat>
-        <UseResponse/>
-      </Fallback>
-    </Sequence>
-  </BehaviorTree>
+        </Fallback>
+        </Sequence>
+    </BehaviorTree>
 
-  <!-- Description of Node Models (used by Groot) -->
-  <TreeNodesModel>
-    <Action ID="CallOpenAI"
-            editable="true"/>
-    <Action ID="ExecuteFunction"
-            editable="true"/>
-    <Action ID="FetchConversationHistory"
-            editable="true"/>
-    <Action ID="PreparePrompt"
-            editable="true"/>
-    <Condition ID="ResponseHasFunctionCall"
-               editable="true"/>
-    <Action ID="UseResponse"
-            editable="true"/>
-  </TreeNodesModel>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="CallOpenAI"
+                editable="true"/>
+        <Action ID="ExecuteFunction"
+                editable="true"/>
+        <Action ID="FetchConversationHistory"
+                editable="true"/>
+        <Action ID="PreparePrompt"
+                editable="true"/>
+        <Condition ID="ResponseHasFunctionCall"
+                editable="true"/>
+        <Action ID="UseResponse"
+                editable="true"/>
+        <Action ID="StoreConversation"
+                editable="true"/>
+    </TreeNodesModel>
 
-</root>
+    </root>
     """  # TODO: Add the correct tree_xml content
 
     return ChatBotFlow(

@@ -20,6 +20,7 @@ from app.robot.actions.fetch_conversation_action import \
     FetchConversationHistoryAction
 from app.robot.actions.has_tool_call import HasToolCall
 from app.robot.actions.prepare_prompt_action import PreparePromptAction
+from app.robot.actions.store_conversation_action import StoreConversationAction
 from app.robot.actions.use_response_action import UseResponseAction
 from app.services.tools.tool_service_interface import ToolServiceInterface
 
@@ -82,6 +83,14 @@ def get_execute_tool_action(
     )
 
 
+def get_store_conversation_action(
+        conversation_repository: ConversationRepositoryInterface = Depends(
+            get_conversation_repository
+        ),
+) -> ActionInterface:
+    return StoreConversationAction(conversation_repository)
+
+
 def get_actions(
         fetch_conversation_action: ActionInterface = Depends(
             get_fetch_conversation_action),
@@ -93,6 +102,9 @@ def get_actions(
         has_tool_action: ActionInterface = Depends(get_has_tool_action),
         use_response_action: ActionInterface = Depends(
             get_use_response_action),
+        store_conversation_action: ActionInterface = Depends(
+            get_store_conversation_action
+        ),
 ) -> dict[str, ActionInterface]:
     return {
         ActionName.FETCH_CONVERSATION_HISTORY: fetch_conversation_action,
@@ -101,4 +113,5 @@ def get_actions(
         ActionName.EXECUTE_FUNCTION: execute_tool_action,
         ActionName.RESPONSE_HAS_FUNCTION_CALL: has_tool_action,
         ActionName.USE_RESPONSE: use_response_action,
+        ActionName.STORE_CONVERSATION: store_conversation_action,
     }

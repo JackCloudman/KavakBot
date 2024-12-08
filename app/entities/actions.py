@@ -10,3 +10,4 @@ class ActionName(str, Enum):
     ADD_FUNCTION_RESULT_TO_MESSAGE = 'AddFunctionResultToMessage'
     USE_RESPONSE = 'UseResponse'
     SAVE_CONVERSATION_HISTORY = 'SaveConversationHistory'
+    STORE_CONVERSATION = 'StoreConversation'

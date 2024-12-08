@@ -1,22 +1,17 @@
-import uuid
-from typing import Any, Dict
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel
 
 from app.entities.chat_role import ChatRole
 
 
 class Message(BaseModel):
-    id: str
-    name: str
     content: str
     role: ChatRole = ChatRole.USER
 
-    @model_validator(mode='before')
-    @classmethod
-    def __fill_id(cls, values: Dict[str, Any]) -> Dict[str, Any]:
-        if values.get('id'):
-            return values
+    def to_str(self) -> str:
+        return f"{self.role}: {self.content}"
 
-        values['id'] = str(uuid.uuid4())
-        return values
+    @staticmethod
+    def from_str(message: str) -> 'Message':
+        role, content = message.split(":", 1)
+        return Message(role=ChatRole(role.strip()), content=content.strip())

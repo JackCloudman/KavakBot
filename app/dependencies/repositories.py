@@ -16,7 +16,12 @@ from app.repositories.conversation.conversation_repository_interface import \
 def get_conversation_repository(
         components: Components = Depends(get_components)
 ) -> ConversationRepositoryInterface:
-    return ConversationRepository(components.get_component("cache"))
+    configuration: Configuration = components.get_component("configuration")
+    return ConversationRepository(
+        components.get_component("typesense"),
+        configuration.get_configuration(
+            "CONVERSATIONS_COLLECTION_NAME", str),
+    )
 
 
 def get_car_catalog_repository(

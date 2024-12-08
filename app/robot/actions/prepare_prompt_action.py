@@ -24,8 +24,7 @@ class PreparePromptAction(ActionInterface):
             history_chat += f"{m.role}: {m.content}\n"
 
         prompt: str = f"{self._system_prompt}\n{history_chat}" if history_chat else self._system_prompt
-        prompt += f"\nCurrent date: {current_date}\n{last_message.role}: {last_message.content}"
-
+        prompt += f"\nCurrent date: {current_date}"
         openai_payload: List[Dict] = [
             {
                 "role": ChatRole.SYSTEM,
@@ -36,7 +35,7 @@ class PreparePromptAction(ActionInterface):
                 "role": ChatRole.USER,
                 "content": [
                     {
-                        "text": last_message.content,
+                        "text": f"{last_message.content}",
                         "type": "text"
                     }
                 ]
@@ -44,5 +43,9 @@ class PreparePromptAction(ActionInterface):
         ]
 
         blackboard.set('openai_payload', openai_payload)
+
+        # Rollback last message
+        conversation.messages.append(last_message)
+        blackboard.set('conversation', conversation)
 
         return "SUCCESS"

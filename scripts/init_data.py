@@ -115,3 +115,43 @@ if import_response.status_code == 200:
     print("Documents inserted successfully.")
 else:
     print(f"Error inserting documents: {import_response.text}")
+
+# Definir el esquema para la colección de conversaciones
+conversations_collection_name: str = "conversations"
+conversations_collection_schema: Dict[str, Any] = {
+    "name": conversations_collection_name,
+    "fields": [
+        {"name": "id", "type": "string"},
+        {"name": "phone_number", "type": "string", "facet": True},
+        {"name": "messages", "type": "string[]"},
+        {"name": "created_at", "type": "int64"},
+        {"name": "updated_at", "type": "int64"},
+    ],
+    "default_sorting_field": "updated_at",
+}
+
+# Eliminar la colección de conversaciones si ya existe
+delete_response = requests.delete(
+    f"{base_url}/collections/{conversations_collection_name}",
+    headers={"X-TYPESENSE-API-KEY": API_KEY},
+)
+
+if delete_response.status_code in [200, 404]:
+    print(
+        f"Collection '{conversations_collection_name}' deleted or did not exist previously."
+    )
+else:
+    print(f"Error deleting the collection: {delete_response.text}")
+
+# Crear la colección de conversaciones
+create_response = requests.post(
+    f"{base_url}/collections",
+    headers={"X-TYPESENSE-API-KEY": API_KEY},
+    json=conversations_collection_schema,
+)
+
+if create_response.status_code == 201:
+    print(
+        f"Collection '{conversations_collection_name}' created successfully.")
+else:
+    print(f"Error creating the collection: {create_response.text}")

@@ -17,11 +17,11 @@ API_KEY: str = os.getenv("TYPESENSE_API_KEY", "abcd1234")
 base_url: str = f"http://{TYPESENSE_HOST}:{TYPESENSE_PORT}"
 
 # Read the cleaned CSV
-df: pd.DataFrame = pd.read_csv("data/cars_cleaned.csv")
+df: pd.DataFrame = pd.read_csv("data/cars_cleaned_enriched.csv")
 
 # Assuming the CSV is clean, we still fill any potential missing values
 # Define columns based on updated names
-str_cols: List[str] = ['make', 'model', 'version']
+str_cols: List[str] = ['make', 'model', 'version', 'description']
 bool_cols: List[str] = ['bluetooth', 'carplay']
 num_cols: List[str] = ['stock_id', 'kilometers',
                        'price', 'year', 'length', 'width', 'height']
@@ -65,7 +65,8 @@ collection_schema: Dict[str, Any] = {
         {"name": "length", "type": "float"},
         {"name": "width", "type": "float"},
         {"name": "height", "type": "float"},
-        {"name": "carplay", "type": "bool"}
+        {"name": "carplay", "type": "bool"},
+        {"name": "description", "type": "string"}
     ],
     "default_sorting_field": "price"  # Optional: set a default sorting field
 }

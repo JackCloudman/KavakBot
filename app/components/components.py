@@ -12,6 +12,7 @@ from app.components.cache.redis import AsyncCache
 from app.components.configuration.configuration import Configuration
 from app.components.configuration.configuration_interface import \
     ConfigurationInterface
+from app.components.logger.logger import Logger
 
 
 class ComponentsMeta(type):
@@ -48,6 +49,11 @@ class Components(metaclass=ComponentsMeta):
             configuration.get_configuration('REDIS_HOST', str),
         )
 
+        logger = Logger(
+            log_format=configuration.get_configuration('LOG_FORMAT', str),
+            log_level=configuration.get_configuration('LOG_LEVEL', str),
+        )
+
         cache: CacheInterface = AsyncCache(
             redis
         )
@@ -67,9 +73,10 @@ class Components(metaclass=ComponentsMeta):
 
         return {
             'configuration': configuration,
-            'cache': redis,
+            'cache': cache,
             'typesense': typesense_client,
-            'openai': openai_client
+            'openai': openai_client,
+            'logger': logger,
         }
 
     def get_component(self, component_name: str) -> Any:

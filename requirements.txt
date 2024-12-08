@@ -6,3 +6,5 @@ fastapi==0.115.6
 uvicorn==0.32.1
 typesense==0.21.0
 openai==1.57.0
+pytest==7.4.4
+pytest-cov==6.0.0

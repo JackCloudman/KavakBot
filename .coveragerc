@@ -1,0 +1,10 @@
+[report]
+exclude_lines =
+    def __repr__
+    def __str__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+omit =
+    app/bootstrap/bootstrapper.py
+    app/entities/application_error.py
+    main.py

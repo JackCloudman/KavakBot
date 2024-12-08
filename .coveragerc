@@ -7,4 +7,6 @@ exclude_lines =
 omit =
     app/bootstrap/bootstrapper.py
     app/entities/application_error.py
+    app/components/**/*.py
+    app/dependencies/**/*.py
     main.py

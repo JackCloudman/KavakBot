@@ -61,8 +61,8 @@ class ConversationRepository(ConversationRepositoryInterface):
                     Message.from_str(msg)
                     for msg in conversation_data["messages"]
                 ]
-                # Limit messages history to 10
-                conversation_data["messages"] = conversation_data["messages"][-10]
+                # Limit messages history up to 10 messages
+                conversation_data["messages"] = conversation_data["messages"][:10]
                 return Conversation.model_validate(conversation_data)
             else:
                 return None

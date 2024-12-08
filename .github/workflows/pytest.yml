@@ -21,7 +21,6 @@ jobs:
       - name: Run tests with coverage
         run: |
           docker run --rm \
-          -v ${{ github.workspace }}:/app \
           my-app-test:latest \
           sh -c "pytest --cov=. --cov-report=xml --cov-report=term-missing"
 

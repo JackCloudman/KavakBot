@@ -1,14 +1,17 @@
-import pytest
 from unittest.mock import MagicMock
-from app.robot.actions.call_openai_action import CallOpenAIAction
+
 import behavior_tree_cpp as bt
+import pytest
+
+from app.robot.actions.call_openai_action import CallOpenAIAction
 
 
 class TestCallOpenAIAction:
     @pytest.fixture
     def setup(self):
         model_name = "gpt-4o-mini"
-        functions = [{"name": "test_function", "description": "A test function"}]
+        functions = [{"name": "test_function",
+                      "description": "A test function"}]
         openai_client = MagicMock()
         action = CallOpenAIAction(model_name, functions, openai_client)
         blackboard = bt.Blackboard.create()
@@ -32,7 +35,8 @@ class TestCallOpenAIAction:
         openai_payload = [{"role": "user", "content": "Hello, world!"}]
         blackboard.set('openai_payload', openai_payload)
 
-        openai_client.chat.completions.create.side_effect = Exception("API error")
+        openai_client.chat.completions.create.side_effect = Exception(
+            "API error")
 
         result = action.execute(blackboard)
 

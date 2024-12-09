@@ -1,5 +1,6 @@
 import json
 from typing import Any, Dict, List
+
 import typesense
 
 from app.repositories.car_catalog.car_catalog_repository_interface import \
@@ -64,7 +65,8 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
                     elif op == "lte":
                         filter_conditions.append(f"{column}:<={val}")
 
-        filter_by: str = " && ".join(filter_conditions) if filter_conditions else ""
+        filter_by: str = " && ".join(
+            filter_conditions) if filter_conditions else ""
         q_value: str = full_text_query if full_text_query else "*"
 
         search_parameters: Dict[str, Any] = {

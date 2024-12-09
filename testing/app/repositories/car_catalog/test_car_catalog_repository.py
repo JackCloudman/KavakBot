@@ -3,7 +3,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from app.repositories.car_catalog.car_catalog_repository import CarCatalogRepository
+from app.repositories.car_catalog.car_catalog_repository import \
+    CarCatalogRepository
 
 
 class TestCarCatalogRepository:
@@ -35,7 +36,8 @@ class TestCarCatalogRepository:
         results = repository.search(search_query)
 
         assert results == [expected_results["hits"][0]["document"]]
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_search_no_description(self, repository, typesense_client):
         search_query = json.dumps({
@@ -47,7 +49,8 @@ class TestCarCatalogRepository:
         })
         expected_results = {
             "hits": [
-                {"document": {"make": "ford", "year": 2017, "price": 250000, "car_play": False}}
+                {"document": {"make": "ford", "year": 2017,
+                              "price": 250000, "car_play": False}}
             ]
         }
         typesense_client.collections["cars"].documents.search.return_value = expected_results
@@ -55,19 +58,22 @@ class TestCarCatalogRepository:
         results = repository.search(search_query)
 
         assert results == [expected_results["hits"][0]["document"]]
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_search_exception_handling(self, repository, typesense_client):
         search_query = json.dumps({
             "make": "toyota",
             "description": "reliable"
         })
-        typesense_client.collections["cars"].documents.search.side_effect = Exception("Typesense error")
+        typesense_client.collections["cars"].documents.search.side_effect = Exception(
+            "Typesense error")
 
         results = repository.search(search_query)
 
         assert results == []
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_search_empty_results(self, repository, typesense_client):
         search_query = json.dumps({
@@ -81,7 +87,8 @@ class TestCarCatalogRepository:
         results = repository.search(search_query)
 
         assert results == []
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_search_multiple_conditions(self, repository, typesense_client):
         search_query = json.dumps({
@@ -92,17 +99,21 @@ class TestCarCatalogRepository:
         })
         expected_results = {
             "hits": [
-                {"document": {"make": "ford", "year": 2018, "price": 200000, "car_play": True}},
-                {"document": {"make": "chevrolet", "year": 2019, "price": 250000, "car_play": True}}
+                {"document": {"make": "ford", "year": 2018,
+                              "price": 200000, "car_play": True}},
+                {"document": {"make": "chevrolet", "year": 2019,
+                              "price": 250000, "car_play": True}}
             ]
         }
         typesense_client.collections["cars"].documents.search.return_value = expected_results
 
         results = repository.search(search_query)
 
-        expected_documents = [hit["document"] for hit in expected_results["hits"]]
+        expected_documents = [hit["document"]
+                              for hit in expected_results["hits"]]
         assert results == expected_documents
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_get_unique_values(self, repository, typesense_client):
         column = "make"
@@ -119,7 +130,8 @@ class TestCarCatalogRepository:
         unique_values = repository.get_unique_values(column)
 
         assert unique_values == ["chevrolet", "ford"]
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_get_unique_values_no_facets(self, repository, typesense_client):
         column = "color"
@@ -131,7 +143,8 @@ class TestCarCatalogRepository:
         unique_values = repository.get_unique_values(column)
 
         assert unique_values == []
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_get_unique_values_multiple_facets(self, repository, typesense_client):
         column = "make"
@@ -152,7 +165,8 @@ class TestCarCatalogRepository:
         unique_values = repository.get_unique_values(column)
 
         assert unique_values == ["chevrolet", "ford", "toyota"]
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_get_columns(self, repository, typesense_client):
         expected_schema = {
@@ -193,14 +207,16 @@ class TestCarCatalogRepository:
 
     @patch('app.repositories.car_catalog.car_catalog_repository.json.loads')
     def test_search_invalid_json(self, mock_json_loads, repository, typesense_client):
-        mock_json_loads.side_effect = json.JSONDecodeError("Expecting value", "", 0)
+        mock_json_loads.side_effect = json.JSONDecodeError(
+            "Expecting value", "", 0)
         search_query = "invalid json"
 
         results = repository.search(search_query)
 
         assert results == []
         mock_json_loads.assert_called_once_with(search_query)
-        typesense_client.collections["cars"].documents.search.assert_not_called()
+        typesense_client.collections["cars"].documents.search.assert_not_called(
+        )
 
     def test_search_with_eq_operator(self, repository, typesense_client):
         search_query = json.dumps({
@@ -219,7 +235,8 @@ class TestCarCatalogRepository:
         results = repository.search(search_query)
 
         assert results == [expected_results["hits"][0]["document"]]
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )
 
     def test_search_with_in_operator(self, repository, typesense_client):
         search_query = json.dumps({
@@ -238,6 +255,8 @@ class TestCarCatalogRepository:
 
         results = repository.search(search_query)
 
-        expected_documents = [hit["document"] for hit in expected_results["hits"]]
+        expected_documents = [hit["document"]
+                              for hit in expected_results["hits"]]
         assert results == expected_documents
-        typesense_client.collections["cars"].documents.search.assert_called_once()
+        typesense_client.collections["cars"].documents.search.assert_called_once(
+        )

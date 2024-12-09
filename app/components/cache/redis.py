@@ -17,7 +17,7 @@ class AsyncCache(CacheInterface):
         self._client.set(key, value)
 
     def get(self, key: str) -> Optional[str]:
-        return None
+        return self._client.get(key)
 
     def delete(self, key: str) -> None:
         self._client.delete(key)

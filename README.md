@@ -152,8 +152,8 @@ In the `gui` folder, you can find a small interface to interact with the chatbot
 
 ### Behavior Trees
 
-- **Description**: Manages the chatbot's decision-making process using behavior trees implemented via the `pybehaviortrees` library.
-- **Key Files**: `app/robot/flows/chatbot_flow.py`, `app/robot/actions/*.py`
+- **Description**: Manages the chatbot's decision-making process using behavior trees implemented via the library [pybehaviortrees](https://github.com/junoai-org/pybehaviortree)
+- **Key Files**: `app/robot/flows/chatbot_flow.py`, `app/robot/actions/*.py`, `configuration/tree.xml`
 
 ### Typesense
 

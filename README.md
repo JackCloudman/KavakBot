@@ -133,12 +133,12 @@ Send a POST request to the webhook endpoint with the user's message and phone nu
 In the `gui` folder, you can find a small interface to interact with the chatbot, just open the `index.html` file in your browser and start chatting with the bot.
 <div style="text-align: center;">
   <img src="assets/gui1.png" alt="GUI Interface" />
-  <p><em>Figure 1: Nickname selection</em></p>
+  <p><em>Nickname selection</em></p>
 </div>
 
 <div style="text-align: center;">
   <img src="assets/gui2.png" alt="GUI Interface" />
-  <p><em>Figure 2: Chatbot conversation</em></p>
+  <p><em>Chatbot conversation</em></p>
 </div>
 
 ## Components

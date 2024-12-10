@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('messageInput');
     const numbersInput = document.getElementById('numbers');
     const thinkingIndicator = document.getElementById('thinkingIndicator');
-
+    
     let currentUser = '';
     let backendUrl = localStorage.getItem('backendUrl') || 'http://localhost:8080';
 
@@ -62,11 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const message = messageInput.value.trim();
-
+        
         if (message) {
             addMessage(message, 'user');
             messageInput.value = '';
-
+            
             // Show thinking indicator
             thinkingIndicator.style.display = 'block';
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(text, type) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', `${type}-message`);
-
+        
         if (type === 'bot') {
             // Use marked to parse markdown for bot messages
             messageDiv.innerHTML = marked.parse(text);
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // For user messages, keep using plain text
             messageDiv.textContent = text;
         }
-
+        
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }

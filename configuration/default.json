@@ -9,6 +9,7 @@
   "OPENAI_MODEL_NAME": "gpt-4o",
   "TOOLS_DESCRIPTIONS": [
     {
+      "name": "search_car",
       "description": "Search for a car in the catalog using typesense, available fields are: make, model, version,description, bluetooth, carplay, kilometers, price (MXN), year, length, width, height, weight",
         "parameters": {
             "type": "object",

@@ -1,0 +1,6 @@
+stock_id,kilometers,price,make,model,year,version,bluetooth,length,width,height,carplay,description
+1001,45000,300000,Toyota,Corolla,2020,SE,Yes,4.62,1.78,1.45,Yes,"Sedán confiable con excelente eficiencia de combustible y tecnología moderna."
+1002,32000,440000,Ford,Mustang,2019,GT,Yes,4.78,1.91,1.38,Yes,"Deportivo potente con motor V8 y diseño icónico."
+1003,15000,360000,Honda,Civic,2021,LX,Yes,4.57,1.84,1.42,Yes,"Compacto elegante con características avanzadas de seguridad y conectividad."
+1004,60000,260000,Chevrolet,Cruze,2018,LT,Yes,4.60,1.80,1.44,No,"Sedán cómodo ideal para desplazamientos urbanos y viajes largos."
+1005,25000,500000,BMW,3 Series,2022,330i,Yes,4.69,1.81,1.43,Yes,"Lujo y rendimiento combinados con tecnología de punta y interiores premium."

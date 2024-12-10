@@ -17,7 +17,7 @@ API_KEY: str = os.getenv("TYPESENSE_API_KEY", "abcd1234")
 base_url: str = f"http://{TYPESENSE_HOST}:{TYPESENSE_PORT}"
 
 # Read the cleaned CSV
-df: pd.DataFrame = pd.read_csv("data/cars_cleaned_enriched.csv")
+df: pd.DataFrame = pd.read_csv("data/cars.csv")
 
 # Assuming the CSV is clean, we still fill any potential missing values
 # Define columns based on updated names

@@ -1,4 +1,6 @@
-# KavakBot
+<div style="text-align: left; font-size: 2.5em; margin-bottom: 30px; color: #ff9ecd; text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);">
+  NeoKavakBot
+</div>
 
 [![codecov](https://codecov.io/gh/JackCloudman/KavakBot/branch/main/graph/badge.svg?token=Q1XXDAKDFR)](https://codecov.io/gh/JackCloudman/KavakBot)
 
@@ -12,6 +14,7 @@
   - [Using Docker](#using-docker)
 - [Usage](#usage)
 - [Components](#components)
+- [License](#license)
 
 ## Overview
 
@@ -27,10 +30,20 @@ KavakBot is a sophisticated chatbot designed to assist users with various functi
 - **Dockerized Deployment**: Simplifies setup and deployment using Docker and Docker Compose.
 
 ## Architecture
+<div style="text-align: center;">
+  <img src="assets/architecture.png" alt="GUI Interface" />
+  <p><em>KavakBot Architecture Overview</em></p>
+</div>
 
-![Architecture Diagram](docs/architecture_diagram.png)
+<div style="text-align: center;">
+  <img src="assets/flowdiagram.png" alt="GUI Interface" />
+  <p><em>KavakBot Flow Diagram</em></p>
+</div>
 
-*Figure 1: KavakBot Architecture Overview*
+<div style="text-align: center;">
+  <img src="assets/behaviortree.png" alt="GUI Interface" />
+  <p><em>KavakBot Behavior Tree</em></p>
+</div>
 
 ## Installation
 
@@ -62,7 +75,15 @@ The recommended way to install and run KavakBot is by using Docker. Follow the s
 
    Replace `your_openai_api_key` with your actual OpenAI API key.
 
-3. **Build and Run Containers**
+3. **Data Initialization**
+
+    Inside the data folder there is a file called cars.csv, feel free to modify it or add more cars to the list, the file must have the following structure:
+    ```csv
+   stock_id,kilometers,price,make,model,year,version,bluetooth,length,width,height,carplay,description
+    1,10000,100000,Toyota,Yaris,2022,LE,1,1,1,1,1,This is a description
+    ```
+
+4. **Build and Run Containers**
 
    ```bash
    docker-compose up --build
@@ -74,7 +95,7 @@ The recommended way to install and run KavakBot is by using Docker. Follow the s
    - **FastAPI Server**: The main API server running KavakBot.
    - **Init Data**: A one-time service to initialize the Typesense collections with demo data.
 
-4. **Access the API**
+5. **Access the API**
 
    Once the containers are up and running, you can access the FastAPI server at `http://localhost:8080`.
 
@@ -92,8 +113,8 @@ The recommended way to install and run KavakBot is by using Docker. Follow the s
 
   ```json
   {
-    "message": "Your message here",
-    "phone_number": "User's phone number"
+    "message": "What is Kavak?",
+    "phone_number": "+1234567890"
   }
   ```
 
@@ -101,13 +122,26 @@ The recommended way to install and run KavakBot is by using Docker. Follow the s
 
   ```json
   {
-    "response": "Bot's response message"
+    "response": "Hello, I'm KavakBot!..."
   }
   ```
 
 ### Interacting with the Chatbot
 
 Send a POST request to the webhook endpoint with the user's message and phone number. The chatbot will process the message, interact with integrated tools (like searching for cars or calculating finances), and respond accordingly.
+
+### Small GUI Interface
+
+In the `gui` folder, you can find a small interface to interact with the chatbot, just open the `index.html` file in your browser and start chatting with the bot.
+<div style="text-align: center;">
+  <img src="assets/gui1.png" alt="GUI Interface" />
+  <p><em>Figure 1: Nickname selection</em></p>
+</div>
+
+<div style="text-align: center;">
+  <img src="assets/gui2.png" alt="GUI Interface" />
+  <p><em>Figure 2: Chatbot conversation</em></p>
+</div>
 
 ## Components
 
@@ -130,3 +164,7 @@ Send a POST request to the webhook endpoint with the user's message and phone nu
 
 - **Description**: Leverages OpenAI's GPT-4o model for generating conversational responses.
 - **Configuration**: Managed via environment variables and `configuration/default.json`
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.

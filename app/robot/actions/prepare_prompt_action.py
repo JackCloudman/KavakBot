@@ -16,31 +16,41 @@ class PreparePromptAction(ActionInterface):
     def execute(self, blackboard: bt.Blackboard) -> str:
         conversation: Conversation = blackboard.get('conversation')
 
-        history_chat: str = ""
         last_message: Message = conversation.messages.pop()
         current_date: str = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-        for m in conversation.messages:
-            history_chat += f"{m.role}: {m.content}\n"
-
-        prompt: str = f"{self._system_prompt}\n{history_chat}" if history_chat else self._system_prompt
-        prompt += f"\nCurrent date: {current_date}"
+        prompt = f"{self._system_prompt}\nCurrent date: {current_date}"
         openai_payload: List[Dict] = [
             {
                 "role": ChatRole.SYSTEM,
                 "content": prompt,
 
-            },
+            }
+        ]
+
+        for m in conversation.messages:
+            openai_payload.append(
+                {
+                    "role": m.role,
+                    "content": [
+                        {
+                            "text": m.content,
+                            "type": "text"
+                        }
+                    ]
+                })
+
+        openai_payload.append(
             {
-                "role": ChatRole.USER,
+                "role": last_message.role,
                 "content": [
                     {
-                        "text": f"{last_message.content}",
+                        "text": last_message.content,
                         "type": "text"
                     }
                 ]
             }
-        ]
+        )
 
         blackboard.set('openai_payload', openai_payload)
 

@@ -1,6 +1,4 @@
-<div style="text-align: left; font-size: 2.5em; margin-bottom: 30px; color: #ff9ecd; text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);">
-  NeoKavakBot
-</div>
+# NeoKavakBot
 
 [![codecov](https://codecov.io/gh/JackCloudman/KavakBot/branch/main/graph/badge.svg?token=Q1XXDAKDFR)](https://codecov.io/gh/JackCloudman/KavakBot)
 

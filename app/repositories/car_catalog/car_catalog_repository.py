@@ -67,6 +67,7 @@ class CarCatalogRepository(CarCatalogRepositoryInterface):
 
         filter_by: str = " && ".join(
             filter_conditions) if filter_conditions else ""
+        filter_by = filter_by.lower()
         q_value: str = full_text_query if full_text_query else "*"
 
         search_parameters: Dict[str, Any] = {
